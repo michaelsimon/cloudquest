@@ -4,8 +4,8 @@ Quest in the Clouds is an exercise in building out infrastructure in AWS to supp
 
 Terraform is leveraged to codify the infrastructure and performs the following operations:
 * Creates VPC, subnets, and all required network components.
-* Creates a private Elastic Container Registry to host the Docker image of the node JS application and pushes the binaries in this repo to ECR to create the image.
-* Creates an ECS cluster, service, and task definition to run the Docker image on an AWS EC2-ECS Instance.
+* Creates a private Elastic Container Registry to host the Docker image of the node JS application and pushes the binaries in this repo to ECR to create the image. The Docker file can be found in `/resources/quest/Dockerfile`
+* Creates an Elastic Container Service (ECS) cluster, service, and task definition to run the Docker image on an EC2 Instance.
 * Creates an EC2 launch template, autoscaling group, and application load balancer components to support the EC2 server-based hosting of the container.
 * Creates necessary IAM roles and policies for ECS and EC2.
 
