@@ -1,13 +1,13 @@
 # Quest in the Clouds
 
-Quest in the Clouds is an exercise in building out infrastructure in AWS to support a basic node js application running in a Docker Container. We are running this Docker container on an EC2 instance.
+Quest in the Clouds is an exercise in building out infrastructure in AWS to support a basic node JS application running in a Docker Container. We are running this Docker container on an EC2 instance.
 
 Terraform is leveraged to codify the infrastructure and performs the following operations:
 * Creates VPC, subnets, and all required network components.
 * Creates a private Elastic Container Registry to host the Docker image of the node JS application and pushes the binaries in this repo to ECR to create the image.
 * Creates an ECS cluster, service, and task definition to run the Docker image on an AWS EC2-ECS Instance.
 * Creates an EC2 launch template, autoscaling group, and application load balancer components to support the EC2 server-based hosting of the container.
-* Creates necesssary IAM roles and policies for ECS and EC2.
+* Creates necessary IAM roles and policies for ECS and EC2.
 
 ## Requirements
 ### Tools
@@ -49,4 +49,23 @@ Subsequently, you will need to create an [AWS Certificate](https://docs.aws.amaz
 - Visit your domain address in a web browser to access the application (If you receive any 5xx errors, AWS is likely still provisioning the resources).
 
 ## Demo
-A copy of this application can be seen at https://rearc.michaelsimon.co
+A copy of this application can be seen at https://rearc.michaelsimon.co/
+* Visit [/docker](https://rearc.michaelsimon.co/docker) to confirm the application is running in a Docker container
+* Visit [/secret_word](https://rearc.michaelsimon.co/secret_word) to confirm the application secret word
+* Visit [/loadbalanced](https://rearc.michaelsimon.co/loadbalanced) to confirm the application is served on a load balancer
+* Visit [/tls](https://rearc.michaelsimon.co/tls) to confirm the application is TLS encrypted
+
+## Future Enhancements
+* Given more time, the deployment process can be enhanced. Currently resource creation via Terraform is run on a user's local machine. Ideally a Terraform workflow, either leveraging Terraform cloud or a VCS pipeline, would be setup so that when changes are made to the Terraform files and committed to a repo, they are processed in a central location. Similarly the Docker image build process (which is currently being completed by a local-exec provisioner) would also be created and pushed in a CI/CD pipeline as well.
+
+* For the purposes of this project, instances are located in a Public AZ. In general, ALWAYS place instances in a Private AZ.
+
+* Improve on the process of requesting and assigning an SSL certificate to the load balancer. Potentially leverage AWS Route53 as well to manage the DNS resolution to the application load balancer.
+
+* Create more parameterization of the configuration including specifying the region, CIDR range and subnet ranges, EC2 auto scaling, ECS capacity sizing, and number of ECS tasks.
+
+* Observability and monitoring, including notifications via SNS/SES of task and EC2 instance issues.
+
+* Provided more outputs/feedback on the status of the Terraform deployment process to the user including information such as the ALB DNS name.
+
+* Create unit tests to validate that the application runs and displays as it is supposed to.
